@@ -5,27 +5,35 @@ namespace Inventory.API.Service
     public interface ICarService
     {
         /// <summary>
-        /// Get all the car
+        /// Get all the cars 
         /// </summary>
         /// <returns></returns>
-        List<Car> GetAll();
+        Task<List<Car>> GetCars();
         /// <summary>
-        /// Get the car with given id
+        /// Get the car details with given car id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="carId"></param>
         /// <returns></returns>
-        Car GetCarById(int id);
+        Task<Car> GetCarById(int carId);
         /// <summary>
-        /// Create new car
+        /// Add new car
         /// </summary>
         /// <param name="car"></param>
         /// <returns></returns>
-        Car SaveCar(Car car);
+        Task SaveCar(Car car);
         /// <summary>
-        /// Delete the car 
+        /// Update existing car details
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="car"></param>
         /// <returns></returns>
-        int DeleteCar(int id);
+        Task UpdateCar(int carId,Car car);
+        /// <summary>
+        /// Delete car with given card id
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
+        Task DeleteCar(int carId);
+
+       
     }
 }

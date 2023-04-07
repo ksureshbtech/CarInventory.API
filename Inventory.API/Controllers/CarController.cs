@@ -1,7 +1,8 @@
-﻿using Inventory.API.Service;
+﻿using Inventory.API.Models;
+using Inventory.API.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Text.Json;
 
 namespace Inventory.API.Controllers
 {
@@ -10,39 +11,41 @@ namespace Inventory.API.Controllers
     public class CarController : ControllerBase
     {
         private readonly ICarService _carService;
-        public CarController(ICarService carService) {
-            _carService = carService;        
+        public CarController(ICarService carService)
+        {
+            _carService = carService;
         }
-        // GET: api/<CarController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_carService.GetCars());
         }
-
-        // GET api/<CarController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+           
+            return Ok(_carService.GetCarById(id));
         }
-
-        // POST api/<CarController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Car car)
         {
+            _carService.SaveCar(car);
+            return CreatedAtAction(nameof(Get), car.Id); 
         }
 
-        // PUT api/<CarController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult PutCar(int carId,[FromBody] Car car)
         {
+            _carService.UpdateCar(carId, car);
+            return NoContent();
         }
 
-        // DELETE api/<CarController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public IActionResult DeleteCar(int carId)
         {
+            _carService.DeleteCar(carId);
+            return NoContent();
         }
+
     }
 }
